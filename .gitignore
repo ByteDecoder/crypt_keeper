@@ -18,3 +18,5 @@ tmp
 spec/debug.log
 spec/database.yml
 bin/
+.env
+.ruby-version
