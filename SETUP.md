@@ -1,5 +1,7 @@
 # Gem Development Setup
 
+Ruby 3.2.7 and up not working
+
 ## Add .env file
 
 Example of settings:
@@ -157,7 +159,7 @@ bundle exec appraisal activerecord_6_0 rspec spec/
 bundle exec appraisal activerecord_6_1 rspec spec/
 bundle exec appraisal rspec spec/
 
-Ruby 3.2.9 (WIP)
+Ruby 3.2.9 (WIP) Rails 6 and up
 
 ```bash
 rm Gemfile.lock
@@ -170,6 +172,7 @@ bundle exec appraisal install
 bundle exec appraisal activerecord_6_0 rspec spec/
 bundle exec appraisal activerecord_6_1 rspec spec/
 bundle exec appraisal rspec spec/
+```
 
 ## Apraisal
 
