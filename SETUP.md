@@ -84,7 +84,7 @@ gem.add_runtime_dependency 'activesupport', '>= 4.2', '< 7.0.0'
 
 ## Ruby and Rails versions
 
-Rails 5 seems works only with Rails 2.5, 2.6 and 2.7
+Rails 5 seems works only with Ruby 2.5, 2.6 and 2.7
 
 Rails 7.2 requires Ruby >= 3.1
 
@@ -142,7 +142,7 @@ bundle exec appraisal activerecord_4_2 rspec spec/
 bundle exec appraisal rspec spec/
 ```
 
-Ruby 2.7.8 (all tests until rails_6_1 run ok)
+Ruby 2.7.8 (Rails 4.2, 5.0, 5.1, 5.2, 6.0, 6.1, 7.0, 7.1)
 
 ```bash
 rm Gemfile.lock
@@ -158,9 +158,9 @@ bundle exec appraisal activerecord_4_2 rspec spec/
 bundle exec appraisal rspec spec/
 ```
 
-Ruby 3.0.7 (4.2, 6.0, 6.1, 7.0, 7.1)
+Ruby 3.0.7 (Rails 4.2, 6.0, 6.1, 7.0, 7.1)
 
-Not working with Rails 5, need to check why.
+Not working with Rails 5, need to check why. (Apparently Rails 5 does not work with Ruby 3)
 
 ```bash
 rm Gemfile.lock
@@ -175,8 +175,7 @@ bundle exec appraisal rspec spec/
 
 Ruby 3.1.7 (Rails 4.2, 6.0, 6.1, 7.0, 7.1, 7.2)
 
-Not working with Rails 5, need to check why.
-
+Not working with Rails 5, need to check why. (Apparently Rails 5 does not work with Ruby 3)
 ```bash
 rm Gemfile.lock
 rbenv install 3.1.7
@@ -189,7 +188,7 @@ bundle exec appraisal activerecord_6_0 rspec spec/
 bundle exec appraisal activerecord_6_1 rspec spec/
 bundle exec appraisal rspec spec/
 
-Ruby 3.2.9 (WIP working with Rails 6.0, 6.1, 7.0, 7.1, 7.2, 8.0, 8.1)
+Ruby 3.2.9 (Rails 6.0, 6.1, 7.0, 7.1, 7.2, 8.0, 8.1)
 
 ```bash
 rm Gemfile.lock
@@ -198,6 +197,40 @@ rbenv local 3.2.9
 bundle install
 bundle exec appraisal clean
 bundle exec appraisal generate
+bundle exec appraisal install
+bundle exec appraisal activerecord_6_0 rspec spec/
+bundle exec appraisal activerecord_6_1 rspec spec/
+bundle exec appraisal rspec spec/
+```
+
+Ruby 3.3.10 (Rails 6.0, 6.1, 7.0, 7.1, 7.2, 8.0, 8.1)
+
+Runnin in batch fails, bur running indiviually all test pass. Needk to check
+
+```bash
+rm Gemfile.lock
+rbenv install 3.3.10
+rbenv local 3.3.10
+bundle install
+bundle exec appraisal clean
+bundle exec appraisal generate
+bundle exec appraisal install
+bundle exec appraisal activerecord_6_0 rspec spec/
+bundle exec appraisal activerecord_6_1 rspec spec/
+bundle exec appraisal rspec spec/
+```
+
+Ruby 3.4.7 (Rails 6.0, 6.1, 7.0, 7.1, 7.2, 8.0, 8.1)
+
+Runnin in batch fails, bur running indiviually all test pass. Needk to check
+
+```bash
+rm Gemfile.lock
+rbenv install 3.4.7
+rbenv local 3.4.7
+bundle install
+bundle exec appraisal clean
+bundle exec appraisal generate --travis
 bundle exec appraisal install
 bundle exec appraisal activerecord_6_0 rspec spec/
 bundle exec appraisal activerecord_6_1 rspec spec/
