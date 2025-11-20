@@ -54,7 +54,7 @@ describe CryptKeeper::Model do
     end
   end
 
-  
+
   context "Encryption and Decryption" do
     let(:plain_text) { 'plain_text' }
     let(:cipher_text) { 'tooltxet_nialp' }
@@ -153,6 +153,13 @@ describe CryptKeeper::Model do
 
   context "Initial Table Encryption" do
     subject { create_encrypted_model :storage, key: 'tool', salt: 'salt', encryptor: :active_support }
+    let(:error_class) do
+      if CryptKeeper.active_record_7_1?
+        ActiveSupport::MessageEncryptor::InvalidMessage
+      else
+        ActiveSupport::MessageVerifier::InvalidSignature
+      end
+    end
 
     before do
       subject.delete_all
@@ -161,7 +168,7 @@ describe CryptKeeper::Model do
     end
 
     it "encrypts the table" do
-      expect { subject.first(5).map(&:storage) }.to raise_error(ActiveSupport::MessageVerifier::InvalidSignature)
+      expect { subject.first(5).map(&:storage) }.to raise_error(error_class)
       subject.encrypt_table!
       expect { subject.first(5).map(&:storage) }.not_to raise_error
     end
