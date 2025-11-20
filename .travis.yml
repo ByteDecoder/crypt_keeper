@@ -10,11 +10,13 @@ rbenv:
 
 gemfile:
   - gemfiles/activerecord_4_2.gemfile
-  - gemfiles/activerecord_5_0.gemfile
-  - gemfiles/activerecord_5_1.gemfile
-  - gemfiles/activerecord_5_2.gemfile
   - gemfiles/activerecord_6_0.gemfile
   - gemfiles/activerecord_6_1.gemfile
+  - gemfiles/activerecord_7_0.gemfile
+  - gemfiles/activerecord_7_1.gemfile
+  - gemfiles/activerecord_7_2.gemfile
+  - gemfiles/activerecord_8_0.gemfile
+  - gemfiles/activerecord_8_1.gemfile
   
 
 matrix:

@@ -159,7 +159,7 @@ bundle exec appraisal activerecord_6_0 rspec spec/
 bundle exec appraisal activerecord_6_1 rspec spec/
 bundle exec appraisal rspec spec/
 
-Ruby 3.2.9 (WIP) Rails 6 and up
+Ruby 3.2.9 (WIP working with Rails 6, not with 7 and 8)
 
 ```bash
 rm Gemfile.lock
@@ -172,6 +172,12 @@ bundle exec appraisal install
 bundle exec appraisal activerecord_6_0 rspec spec/
 bundle exec appraisal activerecord_6_1 rspec spec/
 bundle exec appraisal rspec spec/
+```
+
+What is running Apprasial behind the scenes. In case of problems you can run it manually per gemset
+
+```bash
+bundle check --gemfile='/home/bytedecoder24/workspace/crypt_keeper_byte_repo/gemfiles/activerecord_7_0.gemfile' || bundle install --gemfile='/home/bytedecoder24/workspace/crypt_keeper_byte_repo/gemfiles/activerecord_7_0.gemfile
 ```
 
 ## Apraisal
