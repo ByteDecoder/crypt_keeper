@@ -1,6 +1,5 @@
 # Gem Development Setup
 
-Ruby 3.2.7 and up not working
 
 ## Add .env file
 
