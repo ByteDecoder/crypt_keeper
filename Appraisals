@@ -1,4 +1,4 @@
-if Gem::Version.new(RUBY_VERSION) <= Gem::Version.new('3.1.7')
+#if Gem::Version.new(RUBY_VERSION) <= Gem::Version.new('3.1.7')
   appraise "activerecord_4_2" do
     gem "activerecord",  "~> 4.2.0"
     gem "activesupport", "~> 4.2.0"
@@ -7,30 +7,30 @@ if Gem::Version.new(RUBY_VERSION) <= Gem::Version.new('3.1.7')
     # otherwise you get "undefined method `new' for BigDecimal:Class" in Ruby 2.7
     gem "bigdecimal", "1.3.5"
   end
-end
+#end
 
-if Gem::Version.new(RUBY_VERSION) <= Gem::Version.new('3.1.7')
+#if Gem::Version.new(RUBY_VERSION) <= Gem::Version.new('3.1.7')
   appraise "activerecord_5_0" do
     gem "activerecord",  "~> 5.0.0"
     gem "activesupport", "~> 5.0.0"
 
     gem "sqlite3", "~> 1.3.11"
   end
-end
+#end
 
-if Gem::Version.new(RUBY_VERSION) <= Gem::Version.new('3.1.7')
+#if Gem::Version.new(RUBY_VERSION) <= Gem::Version.new('3.1.7')
   appraise "activerecord_5_1" do
     gem "activerecord",  "~> 5.1.0"
     gem "activesupport", "~> 5.1.0"
   end
-end
+#end
 
-if Gem::Version.new(RUBY_VERSION) <= Gem::Version.new('3.1.7')
+#if Gem::Version.new(RUBY_VERSION) <= Gem::Version.new('3.1.7')
   appraise "activerecord_5_2" do
     gem "activerecord",  "~> 5.2.0"
     gem "activesupport", "~> 5.2.0"
   end
-end
+#end
 
 appraise "activerecord_6_0" do
   gem "activerecord",  "~> 6.0.0"
@@ -59,15 +59,15 @@ appraise "activerecord_7_1" do
   gem "pg", "~> 1.1"
 end
 
-if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.1.0')
+#if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.1.0')
   appraise "activerecord_7_2" do
     gem "activerecord",  "~> 7.2.0"
     gem "activesupport", "~> 7.2.0"
     gem "pg", "~> 1.1"
   end
-end
+#end
 
-if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.2.0')
+#if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.2.0')
   appraise "activerecord_8_0" do
     gem "activerecord",  "~> 8.0.0"
     gem "activesupport", "~> 8.0.0"
@@ -81,4 +81,4 @@ if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.2.0')
     gem "pg", "~> 1.1"
     gem 'sqlite3', '>= 2.1'
   end
-end
+#end
