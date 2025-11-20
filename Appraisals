@@ -59,22 +59,26 @@ appraise "activerecord_7_1" do
   gem "pg", "~> 1.1"
 end
 
-appraise "activerecord_7_2" do
-  gem "activerecord",  "~> 7.2.0"
-  gem "activesupport", "~> 7.2.0"
-  gem "pg", "~> 1.1"
+if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.1.0')
+  appraise "activerecord_7_2" do
+    gem "activerecord",  "~> 7.2.0"
+    gem "activesupport", "~> 7.2.0"
+    gem "pg", "~> 1.1"
+  end
 end
 
-appraise "activerecord_8_0" do
-  gem "activerecord",  "~> 8.0.0"
-  gem "activesupport", "~> 8.0.0"
-  gem "pg", "~> 1.1"
-  gem 'sqlite3', '>= 2.1'
-end
+if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.2.0')
+  appraise "activerecord_8_0" do
+    gem "activerecord",  "~> 8.0.0"
+    gem "activesupport", "~> 8.0.0"
+    gem "pg", "~> 1.1"
+    gem 'sqlite3', '>= 2.1'
+  end
 
-appraise "activerecord_8_1" do
-  gem "activerecord",  "~> 8.1.0"
-  gem "activesupport", "~> 8.1.0"
-  gem "pg", "~> 1.1"
-  gem 'sqlite3', '>= 2.1'
+  appraise "activerecord_8_1" do
+    gem "activerecord",  "~> 8.1.0"
+    gem "activesupport", "~> 8.1.0"
+    gem "pg", "~> 1.1"
+    gem 'sqlite3', '>= 2.1'
+  end
 end

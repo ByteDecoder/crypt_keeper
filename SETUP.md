@@ -82,6 +82,32 @@ gem.add_runtime_dependency 'activerecord',  '>= 4.2', '< 7.0.0'
 gem.add_runtime_dependency 'activesupport', '>= 4.2', '< 7.0.0'
 ```
 
+## Ruby and Rails versions
+
+Rails 5 seems works only with Rails 2.5, 2.6 and 2.7
+
+Rails 7.2 requires Ruby >= 3.1
+
+```bash
+Because activesupport >= 7.2.0.beta1, < 8.0.0.beta1 depends on Ruby >= 3.1.0
+  and activerecord_7_2.gemfile depends on activesupport ~> 7.2.0,
+  Ruby >= 3.1.0 is required.
+So, because current Ruby version is = 3.0.7,
+  version solving has failed.
+```
+
+Rails 8 requires Ruy >= 3.2
+
+```bash
+Bundler found conflicting requirements for the Ruby version:
+  In activerecord_8_0.gemfile:
+    activerecord (~> 8.0.0) was resolved to 8.0.4, which depends on
+      Ruby (>= 3.2.0)
+
+  Current Ruby version:
+    Ruby (= 3.1.7)
+```
+
 ## Testiong with a Ruby version + Apprassial Bundle
 
 Ruby 2.5.9 (all tests until rails_6_1 run ok)
@@ -132,7 +158,9 @@ bundle exec appraisal activerecord_4_2 rspec spec/
 bundle exec appraisal rspec spec/
 ```
 
-Ruby 3.0.7 (all tests works from rails_6_0 to rails_6_1, prior 6.0 doesnt work. Seems the api changed)
+Ruby 3.0.7 (4.2, 6.0, 6.1, 7.0, 7.1)
+
+Not working with Rails 5, need to check why.
 
 ```bash
 rm Gemfile.lock
@@ -145,7 +173,9 @@ bundle exec appraisal install
 bundle exec appraisal activerecord_4_2 rspec spec/
 bundle exec appraisal rspec spec/
 
-Ruby 3.1.7 (all tests works from rails_6_0 to rails_6_1, prior 6.0 doesnt work. Seems the api changed)
+Ruby 3.1.7 (Rails 4.2, 6.0, 6.1, 7.0, 7.1, 7.2)
+
+Not working with Rails 5, need to check why.
 
 ```bash
 rm Gemfile.lock
@@ -159,7 +189,7 @@ bundle exec appraisal activerecord_6_0 rspec spec/
 bundle exec appraisal activerecord_6_1 rspec spec/
 bundle exec appraisal rspec spec/
 
-Ruby 3.2.9 (WIP working with Rails 6, not with 7 and 8)
+Ruby 3.2.9 (WIP working with Rails 6.0, 6.1, 7.0, 7.1, 7.2, 8.0, 8.1)
 
 ```bash
 rm Gemfile.lock
