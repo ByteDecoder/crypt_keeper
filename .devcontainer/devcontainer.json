@@ -1,0 +1,11 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/ruby:3.4",
+  "customizations": {
+    "vscode": {
+      "extensions": []
+    }
+  },
+  "forwardPorts": [
+    3000
+  ]
+}
