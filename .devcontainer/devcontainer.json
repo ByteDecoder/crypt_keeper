@@ -1,8 +1,14 @@
 {
   "image": "mcr.microsoft.com/devcontainers/ruby:3.4",
+  "mounts": [
+    "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
+  ],
   "customizations": {
     "vscode": {
-      "extensions": []
+      "extensions": [
+        "yzhang.markdown-all-in-one",
+        "davidanson.vscode-markdownlint"
+      ]
     }
   },
   "forwardPorts": [
