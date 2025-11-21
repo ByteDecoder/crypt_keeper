@@ -36,6 +36,8 @@ appraise "activerecord_6_0" do
   gem "activerecord",  "~> 6.0.0"
   gem "activesupport", "~> 6.0.0"
 
+  gem "pg", "~> 1.1"
+
   gem 'concurrent-ruby', '1.3.4'
 end
 
