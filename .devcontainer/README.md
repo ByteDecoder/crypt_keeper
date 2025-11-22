@@ -1,0 +1,110 @@
+# CryptKeeper Development Container
+
+This directory contains the VS Code Dev Container configuration for CryptKeeper development.
+
+## What's Included
+
+### Services
+- **Ruby 3.4** development container with all required dependencies
+- **PostgreSQL 16** for testing PostgreSQL encryption providers
+- **MySQL 8.0** for testing MySQL encryption providers
+- **SQLite3** built into the Ruby container
+
+### Pre-installed Tools
+- Git, GitHub CLI
+- Database clients (psql, mysql, sqlite3)
+- Build tools for native gems
+- Zsh with Oh My Zsh
+
+### VS Code Extensions
+- Ruby LSP, Solargraph, Rubocop
+- RSpec test adapter
+- Database clients for PostgreSQL, MySQL, SQLite
+- Git tools (GitLens, GitHub integration)
+- Markdown tools
+- And many more...
+
+## Getting Started
+
+1. Open this repository in VS Code
+2. Click "Reopen in Container" when prompted (or use Command Palette: "Dev Containers: Reopen in Container")
+3. Wait for the container to build and start
+4. The databases will be automatically created via the postCreateCommand
+
+## Database Configuration
+
+The development databases are pre-configured:
+
+- **PostgreSQL**: `postgres:5432` (user: postgres, pass: deploy)
+- **MySQL**: `mysql:3306` (user: root, pass: deploy)
+- **SQLite**: In-memory
+
+A sample `database.yml` is provided in `.devcontainer/database.yml`. Copy it to `spec/database.yml` if needed.
+
+## Environment Variables
+
+The following environment variables are set by default:
+
+```bash
+CRYPT_KEEPER_KEY=<default-key>
+CRYPT_KEEPER_SALT=<default-salt>
+DATABASE_HOST=postgres
+MYSQL_HOST=mysql
+```
+
+You can override these by creating a `.env` file in the project root.
+
+## Running Tests
+
+```bash
+# Run all tests
+bundle exec rspec
+
+# Run specific test file
+bundle exec rspec spec/crypt_keeper/model_spec.rb
+
+# Run with coverage
+bundle exec rake spec
+
+# Run tests for specific ActiveRecord version
+bundle exec appraisal activerecord-7-2 rspec
+```
+
+## Database Management
+
+```bash
+# Create test databases
+bundle exec rake db:create
+
+# Access PostgreSQL
+psql -h postgres -U postgres -d crypt_keeper_providers
+
+# Access MySQL
+mysql -h mysql -u root -pdeploy crypt_keeper_providers
+```
+
+## Volumes
+
+- **bundle-cache**: Persists installed gems between container rebuilds
+- **postgres-data**: Persists PostgreSQL data
+- **mysql-data**: Persists MySQL data
+
+## Ports
+
+- **3000**: Application (if running a server)
+- **5432**: PostgreSQL (forwarded)
+- **3306**: MySQL (forwarded)
+
+## Troubleshooting
+
+### Container won't start
+- Check Docker is running
+- Try "Dev Containers: Rebuild Container"
+
+### Database connection issues
+- Ensure databases are healthy: `docker-compose ps`
+- Check logs: `docker-compose logs postgres` or `docker-compose logs mysql`
+
+### Gems not installing
+- Rebuild container: "Dev Containers: Rebuild Container"
+- Clear bundle cache: `docker-compose down -v` then rebuild

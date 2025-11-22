@@ -1,17 +1,132 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/ruby:3.4",
-  "mounts": [
-    "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
-  ],
+  "name": "CryptKeeper Development",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "remoteUser": "developer",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "installOhMyZsh": true,
+      "upgradePackages": true
+    }
+  },
   "customizations": {
     "vscode": {
       "extensions": [
+        // Ruby & Rails Development
+        "shopify.ruby-lsp",
+        "rebornix.ruby",
+        "connorshea.vscode-ruby-test-adapter",
+        "hridoy.rails-snippets",
+        "bung87.rails",
+        "castwide.solargraph",
+        // Testing & Quality
+        "aliariff.vscode-erb-beautify",
+        // Git & Version Control
+        "eamodio.gitlens",
+        "github.copilot",
+        "github.copilot-chat",
+        "github.vscode-pull-request-github",
+        // Markdown & Documentation
         "yzhang.markdown-all-in-one",
-        "davidanson.vscode-markdownlint"
-      ]
+        "davidanson.vscode-markdownlint",
+        "shd101wyy.markdown-preview-enhanced",
+        "mervin.markdown-formatter",
+        // Code Quality & Formatting
+        "esbenp.prettier-vscode",
+        "aaron-bond.better-comments",
+        "editorconfig.editorconfig",
+        // Database Tools
+        "cweijan.vscode-database-client2",
+        "mtxr.sqltools",
+        "mtxr.sqltools-driver-pg",
+        "mtxr.sqltools-driver-mysql",
+        "mtxr.sqltools-driver-sqlite",
+        // Utilities
+        "formulahendry.auto-close-tag",
+        "formulahendry.auto-rename-tag",
+        "mikestead.dotenv",
+        "mechatroner.rainbow-csv",
+        "redhat.vscode-xml",
+        "redhat.vscode-yaml",
+        "ibm.output-colorizer",
+        "vincaslt.highlight-matching-tag",
+        // Theme
+        "pkief.material-icon-theme"
+      ],
+      "settings": {
+        "ruby.intellisense": "rubyLocate",
+        "ruby.useLanguageServer": true,
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "[ruby]": {
+          "editor.defaultFormatter": "Shopify.ruby-lsp",
+          "editor.formatOnSave": true,
+          "editor.tabSize": 2,
+          "editor.insertSpaces": true
+        },
+        "files.associations": {
+          "*.rb": "ruby",
+          "Gemfile": "ruby",
+          "Rakefile": "ruby",
+          "*.gemspec": "ruby"
+        },
+        "files.exclude": {
+          "**/.git": true,
+          "**/.DS_Store": true,
+          "**/coverage": true
+        },
+        "search.exclude": {
+          "**/coverage": true,
+          "**/node_modules": true,
+          "**/bower_components": true
+        },
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash",
+            "icon": "terminal-bash"
+          },
+          "zsh": {
+            "path": "/bin/zsh",
+            "icon": "terminal-linux"
+          }
+        }
+      }
     }
   },
   "forwardPorts": [
-    3000
+    3000,
+    5432,
+    3306
+  ],
+  "portsAttributes": {
+    "3000": {
+      "label": "Application",
+      "onAutoForward": "notify"
+    },
+    "5432": {
+      "label": "PostgreSQL",
+      "onAutoForward": "silent"
+    },
+    "3306": {
+      "label": "MySQL",
+      "onAutoForward": "silent"
+    }
+  },
+  "postCreateCommand": "bundle install && cp .devcontainer/database.yml spec/database.yml || true",
+  "postStartCommand": "bash .devcontainer/setup-databases.sh",
+  "remoteEnv": {
+    "DATABASE_HOST": "postgres",
+    "DATABASE_USER": "postgres",
+    "DATABASE_PASSWORD": "deploy",
+    "MYSQL_HOST": "mysql",
+    "MYSQL_USER": "root",
+    "MYSQL_PASSWORD": "deploy"
+  },
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/developer/.gitconfig,type=bind,consistency=cached"
   ]
 }

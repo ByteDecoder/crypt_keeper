@@ -1,12 +1,9 @@
 # Use official Ruby image as base
+# Using Ruby 3.4 for better gem compatibility
 FROM ruby:3.4-slim
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
-ENV BUNDLE_PATH=/usr/local/bundle
-ENV BUNDLE_BIN=/usr/local/bundle/bin
-ENV GEM_HOME=/usr/local/bundle
-ENV PATH=$BUNDLE_BIN:$PATH
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -18,8 +15,9 @@ RUN apt-get update && apt-get install -y \
     less \
     postgresql-client \
     libpq-dev \
-    mysql-client \
-    libmysqlclient-dev \
+    mariadb-client \
+    libmariadb-dev \
+    libmariadb-dev-compat \
     sqlite3 \
     libsqlite3-dev \
     pkg-config \
@@ -31,34 +29,35 @@ RUN apt-get update && apt-get install -y \
 # Create app directory
 WORKDIR /workspace
 
-# Create a non-root user
-RUN groupadd --gid 1000 developer \
-    && useradd --uid 1000 --gid developer --shell /bin/bash --create-home developer \
-    && mkdir -p /home/developer/.gem \
-    && chown -R developer:developer /home/developer
-
-# Set up gem configuration for the user
-USER developer
-RUN echo "gem: --no-document" > /home/developer/.gemrc
-
-# Switch back to root for final setup
-USER root
-
-# Install latest bundler and rake
+# Install latest bundler and rake first (as root)
 RUN gem update --system && \
     gem install bundler rake
 
-# Copy gemfiles first for better caching
-COPY Gemfile* crypt_keeper.gemspec ./
-COPY lib/crypt_keeper/version.rb ./lib/crypt_keeper/
+# Create a non-root user
+RUN groupadd --gid 1000 developer \
+    && useradd --uid 1000 --gid developer --shell /bin/bash --create-home developer
 
-# Install dependencies
-RUN bundle install
+# Switch to developer user permanently for bundle setup
+USER developer
 
-# Copy the rest of the application
+# Set up bundle to install in user home directory
+ENV BUNDLE_PATH=/home/developer/.bundle
+ENV GEM_HOME=/home/developer/.gem
+ENV PATH=/home/developer/.gem/bin:/home/developer/.bundle/bin:$PATH
+
+# Set up gem configuration
+RUN echo "gem: --no-document" > /home/developer/.gemrc
+
+# Switch back to root temporarily for final setup
+USER root
+
+# Copy the application (will be mounted over by docker-compose)
 COPY . .
 
-# Set permissions
+# Make setup scripts executable
+RUN chmod +x .devcontainer/*.sh 2>/dev/null || true
+
+# Set permissions for developer user and bundle
 RUN chown -R developer:developer /workspace
 
 # Switch to developer user
