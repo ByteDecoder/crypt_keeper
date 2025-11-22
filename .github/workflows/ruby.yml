@@ -112,14 +112,14 @@ jobs:
         run: |
           # Generate appraisals and install only the one we need
           bundle exec appraisal generate
-          
+
           # Check if this Rails version gemfile was generated (compatible with this Ruby)
           gemfile="gemfiles/activerecord_${{ matrix.rails }}.gemfile"
           if [ ! -f "$gemfile" ]; then
             echo "Gemfile $gemfile not found - incompatible Ruby/Rails combination"
             exit 1
           fi
-          
+
           # Install dependencies using Appraisal's built-in command for this specific appraisal
           echo "Installing dependencies for activerecord_${{ matrix.rails }}..."
           # Use --no-cache to avoid version conflicts with main Gemfile.lock cache
