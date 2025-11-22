@@ -360,7 +360,7 @@ appraisal generate
 appraisal generate --travis
 ```
 
-Install Dependencies for Appraisals: Run appraisal install to resolve and install the dependencies for all generated Gemfiles. 
+Install Dependencies for Appraisals: Run appraisal install to resolve and install the dependencies for all generated Gemfiles.
 
 ```bash
 appraisal install

@@ -70,7 +70,6 @@ jobs:
 
     env:
       TESTING_RAILS_VERSION: ${{ matrix.rails }}
-      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/activerecord_${{ matrix.rails }}.gemfile
 
     services:
       postgres:
