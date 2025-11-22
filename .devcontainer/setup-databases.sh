@@ -12,6 +12,8 @@ echo "🔧 Setting up databases in background..."
             echo "🐘 PostgreSQL ready! Creating database..."
             PGPASSWORD=deploy psql -h postgres -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'crypt_keeper_providers'" | grep -q 1 || \
                 PGPASSWORD=deploy psql -h postgres -U postgres -c "CREATE DATABASE crypt_keeper_providers;"
+            echo "🔐 Enabling pgcrypto extension..."
+            PGPASSWORD=deploy psql -h postgres -U postgres crypt_keeper_providers -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
             echo "✅ PostgreSQL database ready"
             break
         fi

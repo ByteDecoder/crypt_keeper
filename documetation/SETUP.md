@@ -1,5 +1,15 @@
 # Gem Development Setup
 
+## Overview
+
+This gem uses **Appraisal** to test against multiple Rails versions. The `Appraisals` file conditionally defines which Rails versions are available based on your Ruby version:
+
+- **Ruby 3.4+**: Only Rails 7.1, 7.2, 8.0, 8.1 (older versions incompatible)
+- **Ruby 3.0-3.3**: Rails 6.0+ (varies by Ruby version)
+- **Ruby 2.7**: Rails 5.0-7.1
+- **CI**: Tests all compatible Ruby/Rails combinations via GitHub Actions matrix
+
+This approach allows local development with modern Ruby while maintaining support for older Rails versions in CI.
 
 ## Add .env file
 
@@ -72,13 +82,6 @@ bundle exec appraisal rake test
 ```bash
 appraisal activerecord_4_2 rspec spec/
 appraisal activerecord_6_1 rspec spec/
-```
-
-Fix problem that causes conflict with Rails 7
-
-```
-gem.add_runtime_dependency 'activerecord',  '>= 4.2', '< 7.0.0'
-gem.add_runtime_dependency 'activesupport', '>= 4.2', '< 7.0.0'
 ```
 
 ## Ruby and Rails versions
@@ -219,9 +222,9 @@ bundle exec appraisal activerecord_6_1 rspec spec/
 bundle exec appraisal rspec spec/
 ```
 
-Ruby 3.4.7 (Rails 6.0, 6.1, 7.0, 7.1, 7.2, 8.0, 8.1)
+Ruby 3.4.7 (Rails 7.1, 7.2, 8.0, 8.1)
 
-Runnin in batch fails, bur running indiviually all test pass. Needk to check
+**Note:** Ruby 3.4 only supports Rails 7.1+. The Appraisals file conditionally excludes older Rails versions for Ruby 3.4+. Older Rails versions are tested in CI with appropriate Ruby versions.
 
 ```bash
 rm Gemfile.lock
@@ -229,12 +232,27 @@ rbenv install 3.4.7
 rbenv local 3.4.7
 bundle install
 bundle exec appraisal clean
-bundle exec appraisal generate --travis
+bundle exec appraisal generate
 bundle exec appraisal install
-bundle exec appraisal activerecord_6_0 rspec spec/
-bundle exec appraisal activerecord_6_1 rspec spec/
+# Available appraisals for Ruby 3.4: activerecord_7_1, activerecord_7_2, activerecord_8_0, activerecord_8_1
+bundle exec appraisal activerecord_7_2 rspec spec/
 bundle exec appraisal rspec spec/
 ```
+
+**Troubleshooting Appraisal Install Issues:**
+
+If `bundle exec appraisal install` fails with "No such file or directory @ rb_sysopen - gemfile.lock", the lock files weren't created properly. Fix by manually generating them:
+
+```bash
+cd gemfiles
+for gemfile in *.gemfile; do
+  BUNDLE_GEMFILE="$gemfile" bundle lock --update
+  BUNDLE_GEMFILE="$gemfile" bundle install
+done
+cd ..
+```
+
+Then `bundle exec appraisal install` should work correctly.
 
 What is running Apprasial behind the scenes. In case of problems you can run it manually per gemset
 
@@ -245,13 +263,13 @@ bundle check --gemfile='/home/bytedecoder24/workspace/crypt_keeper_byte_repo/gem
 ## Apraisal
 
 The Appraisal gem is used by Rails gem developers
-to test their library against multiple versions of dependencies, most commonly different versions of Rails. It works by generating separate Gemfile files for each test scenario, allowing developers to ensure their gem remains compatible with a wide range of framework versions. This automates testing and helps prevent regressions as dependencies evolve, which is particularly useful for gems that provide plugin-like functionality for a framework. 
+to test their library against multiple versions of dependencies, most commonly different versions of Rails. It works by generating separate Gemfile files for each test scenario, allowing developers to ensure their gem remains compatible with a wide range of framework versions. This automates testing and helps prevent regressions as dependencies evolve, which is particularly useful for gems that provide plugin-like functionality for a framework.
 How it works
 
 - Appraisals file: You create a file named "Appraisals" (note the capitalization) in your project's root directory.
 - Define scenarios: Inside this file, you define different "appraisals," which are essentially test scenarios. For example, you can define one for each major version of Rails you want to support.
 - Generate Gemfiles: The appraisal command reads your Appraisals file and your main Gemfile to generate new Gemfile files in a gemfiles subdirectory, one for each appraisal.
-- Run tests: When you run a command like appraisal rake test, Appraisal uses the correct Gemfile to install the dependencies for that specific appraisal and then runs the command (e.g., rake test). 
+- Run tests: When you run a command like appraisal rake test, Appraisal uses the correct Gemfile to install the dependencies for that specific appraisal and then runs the command (e.g., rake test).
 
 ```ruby
 # Appraisals
@@ -264,7 +282,7 @@ appraise "rails-5" do
 end
 ```
 
-In this example, running appraisal rake test would first run your tests with rails-4.2.0 and then run them again with a 5.x version of Rails, ensuring compatibility across both versions. 
+In this example, running appraisal rake test would first run your tests with rails-4.2.0 and then run them again with a 5.x version of Rails, ensuring compatibility across both versions.
 
 To run RSpec with Appraisal for gem development, follow these steps:
 

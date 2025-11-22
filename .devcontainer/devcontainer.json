@@ -116,7 +116,7 @@
       "onAutoForward": "silent"
     }
   },
-  "postCreateCommand": "bundle install && cp .devcontainer/database.yml spec/database.yml || true",
+  "postCreateCommand": "cp .devcontainer/.env.template .env && bundle install && cp .devcontainer/database.yml spec/database.yml || true && gem install solargraph",
   "postStartCommand": "bash .devcontainer/setup-databases.sh",
   "remoteEnv": {
     "DATABASE_HOST": "postgres",

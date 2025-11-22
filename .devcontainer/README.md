@@ -5,18 +5,21 @@ This directory contains the VS Code Dev Container configuration for CryptKeeper 
 ## What's Included
 
 ### Services
+
 - **Ruby 3.4** development container with all required dependencies
 - **PostgreSQL 16** for testing PostgreSQL encryption providers
 - **MySQL 8.0** for testing MySQL encryption providers
 - **SQLite3** built into the Ruby container
 
 ### Pre-installed Tools
+
 - Git, GitHub CLI
 - Database clients (psql, mysql, sqlite3)
 - Build tools for native gems
 - Zsh with Oh My Zsh
 
 ### VS Code Extensions
+
 - Ruby LSP, Solargraph, Rubocop
 - RSpec test adapter
 - Database clients for PostgreSQL, MySQL, SQLite
@@ -98,13 +101,21 @@ mysql -h mysql -u root -pdeploy crypt_keeper_providers
 ## Troubleshooting
 
 ### Container won't start
+
 - Check Docker is running
 - Try "Dev Containers: Rebuild Container"
 
+Rebuild the container:
+
+- Command Palette (Ctrl+Shift+P / Cmd+Shift+P)
+- "Dev Containers: Rebuild Container Without Cache"
+
 ### Database connection issues
+
 - Ensure databases are healthy: `docker-compose ps`
 - Check logs: `docker-compose logs postgres` or `docker-compose logs mysql`
 
 ### Gems not installing
+
 - Rebuild container: "Dev Containers: Rebuild Container"
 - Clear bundle cache: `docker-compose down -v` then rebuild
