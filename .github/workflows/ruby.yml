@@ -120,11 +120,15 @@ jobs:
             exit 1
           fi
 
-          # Install dependencies using the full path to the gemfile
-          # Use the same deployment path as the main bundle
+          # Install dependencies for this specific appraisal
           echo "Installing dependencies for activerecord_${{ matrix.rails }}..."
+          # First generate the lock file if it doesn't exist
+          BUNDLE_GEMFILE="$PWD/gemfiles/activerecord_${{ matrix.rails }}.gemfile" bundle lock
+          # Then install using the same path as main bundle
           BUNDLE_GEMFILE="$PWD/gemfiles/activerecord_${{ matrix.rails }}.gemfile" \
-            bundle install --deployment --path vendor/bundle --jobs 4 --retry 3
+            bundle config set --local path 'vendor/bundle'
+          BUNDLE_GEMFILE="$PWD/gemfiles/activerecord_${{ matrix.rails }}.gemfile" \
+            bundle install --jobs 4 --retry 3
 
       - name: Copy database config
         run: |
