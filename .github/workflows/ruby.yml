@@ -108,21 +108,21 @@ jobs:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
 
-      - name: Generate Appraisal gemfiles
-        run: |
-          bundle exec appraisal generate
-
       - name: Install dependencies for this Rails version
         run: |
+          # Generate appraisals and install only the one we need
+          bundle exec appraisal generate
+
+          # Check if this Rails version gemfile was generated (compatible with this Ruby)
           gemfile="gemfiles/activerecord_${{ matrix.rails }}.gemfile"
-          if [ -f "$gemfile" ]; then
-            echo "Installing $gemfile..."
-            BUNDLE_GEMFILE="$gemfile" bundle lock --update
-            BUNDLE_GEMFILE="$gemfile" bundle install
-          else
-            echo "Gemfile $gemfile not found - skipping (incompatible Ruby/Rails combination)"
+          if [ ! -f "$gemfile" ]; then
+            echo "Gemfile $gemfile not found - incompatible Ruby/Rails combination"
             exit 1
           fi
+
+          # Install dependencies using Appraisal's built-in command for this specific appraisal
+          echo "Installing dependencies for activerecord_${{ matrix.rails }}..."
+          bundle exec appraisal activerecord_${{ matrix.rails }} bundle install
 
       - name: Copy database config
         run: |
