@@ -121,8 +121,10 @@ jobs:
           fi
 
           # Install dependencies using the full path to the gemfile
+          # Use the same deployment path as the main bundle
           echo "Installing dependencies for activerecord_${{ matrix.rails }}..."
-          BUNDLE_GEMFILE="$PWD/gemfiles/activerecord_${{ matrix.rails }}.gemfile" bundle install --jobs 4 --retry 3
+          BUNDLE_GEMFILE="$PWD/gemfiles/activerecord_${{ matrix.rails }}.gemfile" \
+            bundle install --deployment --path vendor/bundle --jobs 4 --retry 3
 
       - name: Copy database config
         run: |
