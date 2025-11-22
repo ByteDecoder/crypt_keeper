@@ -120,10 +120,11 @@ jobs:
             exit 1
           fi
 
-          # Install dependencies using Appraisal's built-in command for this specific appraisal
+          # Install dependencies by running bundle install directly with the appraisal gemfile
           echo "Installing dependencies for activerecord_${{ matrix.rails }}..."
-          # Use --no-cache to avoid version conflicts with main Gemfile.lock cache
-          BUNDLE_CACHE_ALL=false bundle exec appraisal activerecord_${{ matrix.rails }} bundle install --jobs 4 --retry 3
+          cd gemfiles
+          BUNDLE_GEMFILE="activerecord_${{ matrix.rails }}.gemfile" bundle install --jobs 4 --retry 3
+          cd ..
 
       - name: Copy database config
         run: |
