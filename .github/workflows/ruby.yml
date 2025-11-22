@@ -115,13 +115,11 @@ jobs:
 
       - name: Create lock files and install dependencies
         run: |
-          cd gemfiles
-          for gemfile in *.gemfile; do
+          for gemfile in gemfiles/*.gemfile; do
             echo "Installing $gemfile..."
             BUNDLE_GEMFILE="$gemfile" bundle lock --update
             BUNDLE_GEMFILE="$gemfile" bundle install
           done
-          cd ..
 
       - name: Copy database config
         run: |
