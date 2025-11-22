@@ -11,6 +11,51 @@ This gem uses **Appraisal** to test against multiple Rails versions. The `Apprai
 
 This approach allows local development with modern Ruby while maintaining support for older Rails versions in CI.
 
+### Why Can't I Generate All Appraisals Locally?
+
+**Important:** You cannot generate Appraisal gemfiles for ActiveRecord versions that are incompatible with your current Ruby version. This is because:
+
+1. **Appraisal uses your current Ruby interpreter** - When you run `bundle exec appraisal generate` or `bundle exec appraisal install`, it attempts to resolve and install gems using your active Ruby version.
+
+2. **ActiveRecord has strict Ruby version requirements** - Each Rails/ActiveRecord version specifies minimum (and sometimes maximum) Ruby versions in their gemspecs. For example:
+   - ActiveRecord 5.x requires Ruby < 3.0
+   - ActiveRecord 6.0 requires Ruby < 3.4
+   - ActiveRecord 7.2+ requires Ruby >= 3.1
+   - ActiveRecord 8.0+ requires Ruby >= 3.2
+
+3. **Bundler will fail if versions are incompatible** - If you try to install ActiveRecord 5.2 with Ruby 3.4, Bundler will error out because the gem's metadata explicitly rejects that Ruby version.
+
+### How GitHub Actions CI Solves This
+
+The `.github/workflows/ruby.yml` file uses a **matrix strategy** to test all compatible Ruby/Rails combinations:
+
+```yaml
+strategy:
+  matrix:
+    ruby-version: ["2.7", "3.0", "3.1", "3.2", "3.3", "3.4"]
+    rails: ["5_0", "5_1", "5_2", "6_0", "6_1", "7_0", "7_1", "7_2", "8_0", "8_1"]
+    exclude:
+      - ruby-version: "3.4"
+        rails: "6_0"  # And many other incompatible combinations
+```
+
+**How it works:**
+
+1. **Each matrix job runs independently** with its own Ruby version
+2. **Appraisals are generated dynamically** in each job using that Ruby version
+3. **Only compatible combinations run** - The `exclude` list prevents invalid Ruby/Rails pairings
+4. **Each job installs its specific Rails version** and runs the test suite
+
+This means:
+
+- Ruby 2.7 job generates and tests Rails 5.0-7.1 appraisals
+- Ruby 3.4 job generates and tests Rails 7.1-8.1 appraisals
+- All combinations are tested without requiring you to switch Ruby versions locally
+
+**Local Development Workflow:**
+
+Use your preferred modern Ruby version (e.g., 3.4) for development. You'll only be able to test against compatible Rails versions locally, but CI will ensure comprehensive coverage across all supported combinations when you push your changes.
+
 ## Add .env file
 
 Example of settings:
