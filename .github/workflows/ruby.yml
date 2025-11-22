@@ -120,11 +120,9 @@ jobs:
             exit 1
           fi
 
-          # Install dependencies by running bundle install directly with the appraisal gemfile
+          # Install dependencies using the full path to the gemfile
           echo "Installing dependencies for activerecord_${{ matrix.rails }}..."
-          cd gemfiles
-          BUNDLE_GEMFILE="activerecord_${{ matrix.rails }}.gemfile" bundle install --jobs 4 --retry 3
-          cd ..
+          BUNDLE_GEMFILE="$PWD/gemfiles/activerecord_${{ matrix.rails }}.gemfile" bundle install --jobs 4 --retry 3
 
       - name: Copy database config
         run: |
