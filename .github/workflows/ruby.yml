@@ -112,13 +112,17 @@ jobs:
         run: |
           bundle exec appraisal generate
 
-      - name: Create lock files and install dependencies
+      - name: Install dependencies for this Rails version
         run: |
-          for gemfile in gemfiles/*.gemfile; do
+          gemfile="gemfiles/activerecord_${{ matrix.rails }}.gemfile"
+          if [ -f "$gemfile" ]; then
             echo "Installing $gemfile..."
             BUNDLE_GEMFILE="$gemfile" bundle lock --update
             BUNDLE_GEMFILE="$gemfile" bundle install
-          done
+          else
+            echo "Gemfile $gemfile not found - skipping (incompatible Ruby/Rails combination)"
+            exit 1
+          fi
 
       - name: Copy database config
         run: |
