@@ -109,9 +109,19 @@ jobs:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
 
-      - name: Install Appraisal dependencies
+      - name: Generate Appraisal gemfiles
         run: |
-          bundle exec appraisal install
+          bundle exec appraisal generate
+
+      - name: Create lock files and install dependencies
+        run: |
+          cd gemfiles
+          for gemfile in *.gemfile; do
+            echo "Installing $gemfile..."
+            BUNDLE_GEMFILE="$gemfile" bundle lock --update
+            BUNDLE_GEMFILE="$gemfile" bundle install
+          done
+          cd ..
 
       - name: Copy database config
         run: |
