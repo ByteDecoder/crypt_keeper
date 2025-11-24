@@ -1,6 +1,16 @@
 # Ruby 3.4+ is incompatible with ActiveRecord < 7.1
 # These versions are tested in CI with appropriate Ruby versions
 if RUBY_VERSION < '3.4'
+  # Rails 4.2 works with Ruby 2.4-2.5
+  if RUBY_VERSION < '2.6'
+    appraise "activerecord_4_2" do
+      gem "activerecord",  "~> 4.2.0"
+      gem "activesupport", "~> 4.2.0"
+
+      gem "sqlite3", "~> 1.3.11"
+    end
+  end
+
   appraise "activerecord_5_0" do
     gem "activerecord",  "~> 5.0.0"
     gem "activesupport", "~> 5.0.0"
