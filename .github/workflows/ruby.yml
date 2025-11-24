@@ -214,4 +214,10 @@ jobs:
           PGPASSWORD=crypt_keeper psql crypt_keeper_providers -h localhost -p 5432 -U crypt_keeper -tc "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 
       - name: Run tests
-        run: bundle exec appraisal activerecord_${{ matrix.rails }} rake
+        run: |
+          # Ruby 2.5 needs explicit bundler version to avoid conflicts
+          if [[ "${{ matrix.ruby-version }}" == "2.5" ]]; then
+            bundle _2.3.27_ exec appraisal activerecord_${{ matrix.rails }} rake
+          else
+            bundle exec appraisal activerecord_${{ matrix.rails }} rake
+          fi
