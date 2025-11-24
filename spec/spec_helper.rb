@@ -1,4 +1,9 @@
 ENV['CRYPT_KEEPER_IGNORE_LEGACY_DEPRECATION'] = "true"
+
+# Fix for ActiveSupport 6.x on Ruby 3.1+
+# Logger constant needs to be loaded before ActiveSupport
+require 'logger' if RUBY_VERSION >= '3.1'
+
 require 'coveralls'
 Coveralls.wear!
 require 'crypt_keeper'
