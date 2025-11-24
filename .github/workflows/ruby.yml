@@ -108,6 +108,11 @@ jobs:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
 
+      - name: Update Bundler
+        run: |
+          gem update --system
+          gem install bundler -v '~> 2.4'
+
       - name: Install dependencies for this Rails version
         run: |
           # Generate appraisals and install only the one we need
