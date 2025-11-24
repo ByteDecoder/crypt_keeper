@@ -110,13 +110,17 @@ jobs:
 
       - name: Update Bundler
         run: |
-          # Update RubyGems only for Ruby >= 3.0
+          # Update RubyGems and Bundler based on Ruby version compatibility
           if [[ "${{ matrix.ruby-version }}" == "2.7" ]]; then
-            # For Ruby 2.7, update to the last compatible RubyGems version
+            # Ruby 2.7: RubyGems 3.4.22 is the last compatible version
             gem update --system 3.4.22
             gem install bundler -v '~> 2.4.0'
+          elif [[ "${{ matrix.ruby-version }}" == "3.0" ]] || [[ "${{ matrix.ruby-version }}" == "3.1" ]]; then
+            # Ruby 3.0-3.1: RubyGems 3.5.x is the last compatible version
+            gem update --system 3.5.23
+            gem install bundler
           else
-            # For Ruby >= 3.0, use latest
+            # Ruby >= 3.2: Use latest
             gem update --system
             gem install bundler
           fi
