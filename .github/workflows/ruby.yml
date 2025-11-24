@@ -159,10 +159,14 @@ jobs:
       - name: Update Bundler
         run: |
           # Update RubyGems and Bundler based on Ruby version compatibility
-          if [[ "${{ matrix.ruby-version }}" == "2.4" ]] || [[ "${{ matrix.ruby-version }}" == "2.5" ]]; then
-            # Ruby 2.4-2.5: Use compatible older versions
+          if [[ "${{ matrix.ruby-version }}" == "2.4" ]]; then
+            # Ruby 2.4: Use compatible older versions
             gem update --system 3.2.3
             gem install bundler -v '~> 2.3.0'
+          elif [[ "${{ matrix.ruby-version }}" == "2.5" ]]; then
+            # Ruby 2.5: Needs bundler 2.3+ to match Gemfile.lock
+            gem update --system 3.2.3
+            gem install bundler -v '2.3.27'
           elif [[ "${{ matrix.ruby-version }}" == "2.7" ]]; then
             # Ruby 2.7: RubyGems 3.4.22 is the last compatible version
             gem update --system 3.4.22
