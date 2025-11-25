@@ -12,9 +12,20 @@ echo "🔧 Setting up databases in background..."
             echo "🐘 PostgreSQL ready! Creating database..."
             PGPASSWORD=deploy psql -h postgres -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'crypt_keeper_providers'" | grep -q 1 || \
                 PGPASSWORD=deploy psql -h postgres -U postgres -c "CREATE DATABASE crypt_keeper_providers;"
+            
+            # Wait a moment for database to be fully ready
+            sleep 2
+            
             echo "🔐 Enabling pgcrypto extension..."
-            PGPASSWORD=deploy psql -h postgres -U postgres crypt_keeper_providers -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
-            echo "✅ PostgreSQL database ready"
+            PGPASSWORD=deploy psql -h postgres -U postgres -d crypt_keeper_providers -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;" 2>&1
+            
+            # Verify extension is installed
+            EXTENSION_CHECK=$(PGPASSWORD=deploy psql -h postgres -U postgres -d crypt_keeper_providers -tc "SELECT 1 FROM pg_extension WHERE extname = 'pgcrypto'" | tr -d '[:space:]')
+            if [ "$EXTENSION_CHECK" = "1" ]; then
+                echo "✅ PostgreSQL database ready with pgcrypto extension"
+            else
+                echo "⚠️  Warning: pgcrypto extension may not be installed. Run: PGPASSWORD=deploy psql -h postgres -U postgres -d crypt_keeper_providers -c 'CREATE EXTENSION IF NOT EXISTS pgcrypto;'"
+            fi
             break
         fi
         sleep 1

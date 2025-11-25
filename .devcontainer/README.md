@@ -100,6 +100,42 @@ mysql -h mysql -u root -pdeploy crypt_keeper_providers
 
 ## Troubleshooting
 
+### Mac M1: pgcrypto Extension Not Installed
+
+If you're on Mac M1 and getting errors like:
+
+```text
+PG::UndefinedFunction: ERROR: function pgp_sym_encrypt(...) does not exist
+```
+
+**Quick Fix:**
+
+```bash
+# Run the fix script
+./.devcontainer/fix-postgres-mac.sh
+```
+
+**What causes this?**
+
+On Mac M1 (ARM architecture), the PostgreSQL init scripts in `/docker-entrypoint-initdb.d/` sometimes don't execute properly due to timing or volume mounting issues. The `fix-postgres-mac.sh` script:
+
+1. Verifies PostgreSQL connection
+2. Ensures the database exists
+3. Installs the pgcrypto extension
+4. Verifies the extension is working
+
+**Prevention:**
+
+The `docker-compose.yml` now includes `platform: linux/amd64` for PostgreSQL to ensure consistent behavior across architectures. Future container builds should work automatically.
+
+**Manual Fix:**
+
+If you prefer to fix it manually:
+
+```bash
+PGPASSWORD=deploy psql -h postgres -U postgres -d crypt_keeper_providers -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
+```
+
 ### Container won't start
 
 - Check Docker is running
