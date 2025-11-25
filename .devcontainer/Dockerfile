@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     libreadline-dev \
     zlib1g-dev \
+    libyaml-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Create app directory
