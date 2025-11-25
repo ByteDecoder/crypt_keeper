@@ -15,9 +15,11 @@ Ruby 3.4 with Rails 7.1-8.1
 ✅ GitHub Actions CI testing all Ruby/Rails combinations
 ✅ Handy install-appraisals.sh script for quick setup
 
-Starting point, Ruby 3.4, then:
-
 **Dont forget** to start the devcontainer to get all the stuff properly configured and running. Tested by Windows/WSL2 and MAC ARM MX.
+
+**if you decide not use the devcontainer** you need to create and configure everything manually in you local dev machine. Is stronger recommened that you use the **devcontianer**, so everyone will have the same local working environment.
+
+Starting point, Ruby 3.4, then:
 
 ```bash
 bundle install
@@ -33,6 +35,13 @@ bundle exec appraisal clean
 bundle exec appraisal generate
 ./bin/install-appraisals.sh
 bundle exec appraisal rspec spec/
+```
+
+If you have weird warming messages from VSCode, about plugins outside the **devcontainer**, install in your local(outside the devconainter) the next gems:
+
+```bash
+gem install solargraph
+gem install ruby-lsp 
 ```
 
 Don't worry about the previous Ruby and ActiveRecord versions, their Apprasial are generated with the **Github Actions CI**.
@@ -97,7 +106,7 @@ Use your preferred modern Ruby version (e.g., 3.4) for development. You'll only 
 
 ## Add .env file
 
-You dont need to do this, is alredy setup in the devcontainer, just mentioned for information porpuses.
+You dont need to do this, is already configured in the devcontainer, just mentioned for information purposes.
 
 Example of settings:
 
@@ -108,7 +117,7 @@ CRYPT_KEEPER_SALT=b16a153e99a5db616a861ea5a6febc64d8a758c4aef3b8c8fc6675ac9daf03
 
 ## Datbase setup
 
-You dont need to do this, is alredy setup in the devcontainer, just mentioned for information porpuses.
+You dont need to do this, is already configured in the devcontainer, just mentioned for information purposes.
 
 create ./spec/database.yml
 
@@ -143,7 +152,7 @@ sqlite:
 
 ## Creating Testing Databases
 
-You dont need to do this, is alredy setup in the devcontainer, just mentioned for information porpuses.
+You dont need to do this, is already configured in the devcontainer, just mentioned for information purposes.
 
 Enter into the shell of each container and do the next:
 
@@ -162,7 +171,7 @@ mysql -e 'CREATE DATABASE crypt_keeper_providers' -p
 
 ## Testing with a previous Ruby version + Apprassial Bundle
 
-You dont need to do this, is alredy setup in the devcontainer, just mentioned for information porpuses.
+You dont need to do this, is already configured in the devcontainer, just mentioned for information purposes.
 
 In order to test with older Ruby versions, you need to install them with **rbenv**. Check each bulk of commands per Ruby versions. Locally is not needed since the CI is in charge or running all these conbinations by installing the proper version of ruby and ActiveRecord for testing all these version combinations where are supported.
 
