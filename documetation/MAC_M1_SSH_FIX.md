@@ -21,6 +21,7 @@ The issue occurs because:
 ## Why It Works on Windows WSL2
 
 Windows WSL2 doesn't have this issue because:
+
 - Windows SSH configs typically don't use `UseKeychain` (it's macOS-specific)
 - WSL2 users often have separate SSH configs for Linux anyway
 - Windows users may use SSH agents or credential managers that are compatible with Linux
@@ -48,6 +49,7 @@ Configure the devcontainer to automatically filter SSH config on startup.
 ```
 
 This will:
+
 - Create a filtered SSH config at `/tmp/ssh_config_filtered` (without `UseKeychain`)
 - Set `GIT_SSH_COMMAND` environment variable
 - Add the setting to your shell profile (`.bashrc` and `.zshrc`)
@@ -84,10 +86,12 @@ The devcontainer has been updated to automatically handle this issue. After rebu
 ### What's Changed
 
 1. **`docker-compose.yml`**:
+
    - SSH directory mounted to `.ssh-host` instead of `.ssh`
    - Allows the container to create its own `.ssh` directory
 
 2. **`setup-ssh-container.sh`**:
+
    - Runs during container creation
    - Copies SSH keys and config from `.ssh-host` to `.ssh`
    - Filters out `UseKeychain` lines
@@ -99,6 +103,7 @@ The devcontainer has been updated to automatically handle this issue. After rebu
 ### How to Apply
 
 1. **Rebuild the devcontainer**:
+
    - Command Palette (Ctrl+Shift+P / Cmd+Shift+P)
    - "Dev Containers: Rebuild Container"
 
@@ -188,10 +193,12 @@ git push
 ### New Files
 
 1. **`.devcontainer/fix-ssh-mac.sh`**
+
    - Quick fix script for immediate resolution
    - Filters SSH config and sets environment variables
 
 2. **`.devcontainer/setup-ssh-container.sh`**
+
    - Container startup script
    - Automatically filters SSH config on rebuild
 
@@ -201,9 +208,11 @@ git push
 ### Modified Files
 
 1. **`.devcontainer/docker-compose.yml`**
+
    - Changed SSH mount from `~/.ssh` to `~/.ssh-host`
 
 2. **`.devcontainer/devcontainer.json`**
+
    - Added `setup-ssh-container.sh` to `postCreateCommand`
 
 3. **`.devcontainer/README.md`**
@@ -277,4 +286,3 @@ ls -la ~/.ssh/
 - [Git SSH Configuration](https://git-scm.com/book/en/v2/Git-on-the-Server-Generating-Your-SSH-Public-Key)
 - [macOS Keychain SSH Integration](https://developer.apple.com/library/archive/technotes/tn2449/_index.html)
 - [Dev Containers Documentation](https://code.visualstudio.com/docs/devcontainers/containers)
-
