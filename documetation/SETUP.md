@@ -25,6 +25,16 @@ bundle install
 bundle exec appraisal rspec spec/
 ```
 
+If you need to change Ruby version to a new one run:
+
+```bash
+bundle install
+bundle exec appraisal clean
+bundle exec appraisal generate
+./bin/install-appraisals.sh
+bundle exec appraisal rspec spec/
+```
+
 ## Overview
 
 This gem uses **Appraisal** to test against multiple Rails versions. The `Appraisals` file conditionally defines which Rails versions are available based on your Ruby version:
