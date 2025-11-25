@@ -35,6 +35,8 @@ bundle exec appraisal generate
 bundle exec appraisal rspec spec/
 ```
 
+Don't worry about the previous Ruby and ActiveRecord versions, their Apprasial are generated with the **Github Actions CI**.
+
 ## Overview
 
 This gem uses **Appraisal** to test against multiple Rails versions. The `Appraisals` file conditionally defines which Rails versions are available based on your Ruby version:
