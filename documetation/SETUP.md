@@ -40,7 +40,6 @@ bundle exec appraisal rspec spec/
 If you have weird warming messages from VSCode, about plugins outside/inside the **devcontainer**, install in your local(outside/inside the devconainter) the next gems:
 
 ```bash
-gem install solargraph
 gem install ruby-lsp 
 ```
 

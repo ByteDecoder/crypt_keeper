@@ -30,13 +30,11 @@ echo "💎 Installing Ruby gems..."
 bundle install
 
 # Install IDE tools separately (not in gemspec to avoid CI/Ruby version issues)
-echo "🔧 Installing IDE tools (ruby-lsp, solargraph)..."
+echo "🔧 Installing IDE tools (ruby-lsp)..."
 if ! gem list -i ruby-lsp > /dev/null 2>&1; then
     gem install ruby-lsp --no-document || echo "⚠️  Warning: Could not install ruby-lsp"
 fi
-if ! gem list -i solargraph > /dev/null 2>&1; then
-    gem install solargraph --no-document || echo "⚠️  Warning: Could not install solargraph"
-fi
+
 echo "✅ IDE tools installed"
 
 # Install Appraisal gemfiles

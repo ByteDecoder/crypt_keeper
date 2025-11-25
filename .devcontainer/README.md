@@ -20,8 +20,7 @@ This directory contains the VS Code Dev Container configuration for CryptKeeper 
 
 ### VS Code Extensions
 
-- Ruby LSP, Solargraph, Rubocop
-- RSpec test adapter
+- Ruby LSP
 - Database clients for PostgreSQL, MySQL, SQLite
 - Git tools (GitLens, GitHub integration)
 - Markdown tools
