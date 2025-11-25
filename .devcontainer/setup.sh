@@ -7,6 +7,10 @@ echo "🚀 Setting up CryptKeeper development environment..."
 echo "💎 Installing Ruby gems..."
 bundle install
 
+# Install IDE tools separately (not in gemspec to avoid CI/Ruby version issues)
+echo "🔧 Installing IDE tools (ruby-lsp, solargraph)..."
+gem install ruby-lsp solargraph --no-document || echo "⚠️  Warning: Could not install IDE tools"
+
 # Copy database config if it doesn't exist
 if [ ! -f spec/database.yml ]; then
     echo "📋 Copying database configuration..."
