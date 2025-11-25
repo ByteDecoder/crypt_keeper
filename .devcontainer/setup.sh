@@ -3,6 +3,22 @@ set -e
 
 echo "🚀 Setting up CryptKeeper development environment..."
 
+# Setup SSH for git operations
+echo "🔑 Setting up SSH configuration..."
+if [ -d /home/developer/.ssh-host ]; then
+    # Copy SSH keys and config from host mount
+    mkdir -p /home/developer/.ssh
+    cp -r /home/developer/.ssh-host/* /home/developer/.ssh/ 2>/dev/null || true
+    chmod 700 /home/developer/.ssh
+    chmod 600 /home/developer/.ssh/* 2>/dev/null || true
+    # Create empty config file if it doesn't exist (required by git)
+    touch /home/developer/.ssh/config
+    chmod 600 /home/developer/.ssh/config
+    echo "✅ SSH keys configured"
+else
+    echo "⚠️  No SSH keys mounted from host"
+fi
+
 # Install gems first
 echo "💎 Installing Ruby gems..."
 bundle install
