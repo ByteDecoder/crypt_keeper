@@ -3,6 +3,12 @@ set -e
 
 echo "🚀 Setting up CryptKeeper development environment..."
 
+# Install system dependencies for native gems
+echo "📦 Installing system dependencies..."
+sudo apt-get update -qq
+sudo apt-get install -y -qq libyaml-dev > /dev/null 2>&1
+echo "✅ System dependencies installed"
+
 # Setup SSH for git operations
 echo "🔑 Setting up SSH configuration..."
 if [ -d /home/developer/.ssh-host ]; then
