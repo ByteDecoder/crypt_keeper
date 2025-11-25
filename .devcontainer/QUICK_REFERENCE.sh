@@ -79,11 +79,19 @@ bundle update
 ## Troubleshooting
 
 ### Mac M1 Issues
-# If you get "function pgp_sym_encrypt does not exist":
+
+# PostgreSQL pgcrypto extension not installed:
 ./.devcontainer/fix-postgres-mac.sh
 
-# Or manually:
+# Git push/pull SSH errors (Bad configuration option: usekeychain):
+./.devcontainer/fix-ssh-mac.sh
+
+# Manual fixes:
+# PostgreSQL:
 PGPASSWORD=deploy psql -h postgres -U postgres -d crypt_keeper_providers -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
+
+# SSH:
+export GIT_SSH_COMMAND='ssh -F /tmp/ssh_config_filtered'
 
 ### Check Service Health
 # From host machine (outside container):

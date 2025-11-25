@@ -100,6 +100,45 @@ mysql -h mysql -u root -pdeploy crypt_keeper_providers
 
 ## Troubleshooting
 
+### Mac M1: Git Push/Pull SSH Issues
+
+If you're on Mac M1 and getting SSH errors when pushing/pulling from Git:
+
+```text
+Bad configuration option: usekeychain
+fatal: Could not read from remote repository.
+```
+
+**Quick Fix:**
+
+```bash
+# Run the SSH fix script
+./.devcontainer/fix-ssh-mac.sh
+```
+
+**What causes this?**
+
+macOS uses the `UseKeychain` option in SSH config to integrate with the macOS Keychain. This option is not available in Linux (which the container runs), causing SSH to fail.
+
+**How it works:**
+
+The fix script:
+
+1. Filters out `UseKeychain` from your SSH config
+2. Creates a Linux-compatible config at `/tmp/ssh_config_filtered`
+3. Sets `GIT_SSH_COMMAND` to use the filtered config
+4. Adds the setting to your shell profile for persistence
+
+**Manual workaround:**
+
+```bash
+export GIT_SSH_COMMAND='ssh -F /tmp/ssh_config_filtered'
+```
+
+**For future container rebuilds:**
+
+The devcontainer is now configured to automatically filter the SSH config on startup. After rebuilding, SSH will work without manual intervention.
+
 ### Mac M1: pgcrypto Extension Not Installed
 
 If you're on Mac M1 and getting errors like:

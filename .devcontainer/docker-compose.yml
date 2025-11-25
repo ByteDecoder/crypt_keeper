@@ -8,7 +8,7 @@ services:
     volumes:
       - ..:/workspace:cached
       - bundle-cache:/usr/local/bundle
-      - ~/.ssh:/home/developer/.ssh:ro
+      - ~/.ssh:/home/developer/.ssh-host:ro
     command: sleep infinity
     environment:
       - DATABASE_HOST=postgres
