@@ -17,7 +17,6 @@
       "extensions": [
         // Ruby & Rails Development
         "shopify.ruby-lsp",
-        "connorshea.vscode-ruby-test-adapter",
         "hridoy.rails-snippets",
         "bung87.rails",
         "castwide.solargraph",
@@ -100,7 +99,11 @@
       }
     }
   },
-  "forwardPorts": [3000, 5432, 3306],
+  "forwardPorts": [
+    3000,
+    5432,
+    3306
+  ],
   "portsAttributes": {
     "3000": {
       "label": "Application",
