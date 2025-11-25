@@ -12,6 +12,15 @@ Ruby 3.4 with Rails 7.1-8.1
 ✅ CI testing across Ruby 2.7-3.4 and Rails 5.0-8.1
 ✅ Proper bundler/RubyGems version handling
 ✅ Logger fix for Rails 6.x compatibility
+✅ Conditional Appraisals for Ruby version compatibility
+✅ GitHub Actions CI testing all Ruby/Rails combinations
+✅ Handy install-appraisals.sh script for quick setup
+
+```bash
+bundle install
+./bin/install-appraisals.sh
+bundle exec appraisal rspec spec/
+```
 
 ## Overview
 
@@ -140,32 +149,6 @@ bundle exec appraisal rake test
 ```bash
 appraisal activerecord_4_2 rspec spec/
 appraisal activerecord_6_1 rspec spec/
-```
-
-## Ruby and Rails versions
-
-Rails 5 seems works only with Ruby 2.5, 2.6 and 2.7
-
-Rails 7.2 requires Ruby >= 3.1
-
-```bash
-Because activesupport >= 7.2.0.beta1, < 8.0.0.beta1 depends on Ruby >= 3.1.0
-  and activerecord_7_2.gemfile depends on activesupport ~> 7.2.0,
-  Ruby >= 3.1.0 is required.
-So, because current Ruby version is = 3.0.7,
-  version solving has failed.
-```
-
-Rails 8 requires Ruy >= 3.2
-
-```bash
-Bundler found conflicting requirements for the Ruby version:
-  In activerecord_8_0.gemfile:
-    activerecord (~> 8.0.0) was resolved to 8.0.4, which depends on
-      Ruby (>= 3.2.0)
-
-  Current Ruby version:
-    Ruby (= 3.1.7)
 ```
 
 ## Testiong with a Ruby version + Apprassial Bundle
