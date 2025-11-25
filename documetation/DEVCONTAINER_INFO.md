@@ -8,7 +8,7 @@ Now I have enough information to create a comprehensive Dockerfile. Based on the
 - It uses RSpec for testing
 - Development dependencies include Guard, Rake, and other testing tools
 
-## Key Components:
+## Key Components
 
 - Base Image: Ruby 3.4-slim (latest recommended version)
 - System Dependencies:

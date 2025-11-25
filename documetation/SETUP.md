@@ -2,7 +2,6 @@
 
 The CI will now test:
 
-Ruby 2.4 with Rails 4.2
 Ruby 2.7 with Rails 5.0-7.1
 Ruby 3.0-3.1 with Rails 6.0-7.2
 Ruby 3.2-3.3 with Rails 6.0-8.0
@@ -15,6 +14,8 @@ Ruby 3.4 with Rails 7.1-8.1
 ✅ Conditional Appraisals for Ruby version compatibility
 ✅ GitHub Actions CI testing all Ruby/Rails combinations
 ✅ Handy install-appraisals.sh script for quick setup
+
+Starting point, Ruby 3.4, then:
 
 ```bash
 bundle install
@@ -80,6 +81,8 @@ Use your preferred modern Ruby version (e.g., 3.4) for development. You'll only 
 
 ## Add .env file
 
+You dont need to do this, is alredy setup in the devcontainer, just mentioned for information porpuses.
+
 Example of settings:
 
 ```.env
@@ -88,6 +91,8 @@ CRYPT_KEEPER_SALT=b16a153e99a5db616a861ea5a6febc64d8a758c4aef3b8c8fc6675ac9daf03
 ```
 
 ## Datbase setup
+
+You dont need to do this, is alredy setup in the devcontainer, just mentioned for information porpuses.
 
 create ./spec/database.yml
 
@@ -122,6 +127,8 @@ sqlite:
 
 ## Creating Testing Databases
 
+You dont need to do this, is alredy setup in the devcontainer, just mentioned for information porpuses.
+
 Enter into the shell of each container and do the next:
 
 psql
@@ -137,23 +144,13 @@ mysql: will prompt your password
 mysql -e 'CREATE DATABASE crypt_keeper_providers' -p
 ```
 
-Works with Ruby 3.0.4, next:
+## Testing with a previous Ruby version + Apprassial Bundle
 
-```bash
-bundle install
-appraisal install
-appraisal rake test
-bundle exec appraisal rake test
-```
+You dont need to do this, is alredy setup in the devcontainer, just mentioned for information porpuses.
 
-```bash
-appraisal activerecord_4_2 rspec spec/
-appraisal activerecord_6_1 rspec spec/
-```
+In order to test with older Ruby versions, you need to install them with **rbenv**. Check each bulk of commands per Ruby versions. Locally is not needed since the CI is in charge or running all these conbinations by installing the proper version of ruby and ActiveRecord for testing all these version combinations where are supported.
 
-## Testiong with a Ruby version + Apprassial Bundle
-
-Ruby 2.5.9 (all tests until rails_6_1 run ok)
+### Ruby 2.5.9 (all tests until rails_6_1 run ok)
 
 ```bash
 rm Gemfile.lock
@@ -169,7 +166,7 @@ bundle exec appraisal activerecord_4_2 rspec spec/
 bundle exec appraisal rspec spec/
 ```
 
-Ruby 2.6.10 (all tests until rails_6_1 run ok)
+### Ruby 2.6.10 (all tests until rails_6_1 run ok)
 
 ```bash
 rm Gemfile.lock
@@ -185,7 +182,7 @@ bundle exec appraisal activerecord_4_2 rspec spec/
 bundle exec appraisal rspec spec/
 ```
 
-Ruby 2.7.8 (Rails 4.2, 5.0, 5.1, 5.2, 6.0, 6.1, 7.0, 7.1)
+### Ruby 2.7.8 (Rails 4.2, 5.0, 5.1, 5.2, 6.0, 6.1, 7.0, 7.1)
 
 ```bash
 rm Gemfile.lock
@@ -201,7 +198,7 @@ bundle exec appraisal activerecord_4_2 rspec spec/
 bundle exec appraisal rspec spec/
 ```
 
-Ruby 3.0.7 (Rails 4.2, 6.0, 6.1, 7.0, 7.1)
+### Ruby 3.0.7 (Rails 4.2, 6.0, 6.1, 7.0, 7.1)
 
 Not working with Rails 5, need to check why. (Apparently Rails 5 does not work with Ruby 3)
 
@@ -215,10 +212,12 @@ bundle exec appraisal generate
 bundle exec appraisal install
 bundle exec appraisal activerecord_4_2 rspec spec/
 bundle exec appraisal rspec spec/
+```
 
-Ruby 3.1.7 (Rails 4.2, 6.0, 6.1, 7.0, 7.1, 7.2)
+### Ruby 3.1.7 (Rails 4.2, 6.0, 6.1, 7.0, 7.1, 7.2)
 
-Not working with Rails 5, need to check why. (Apparently Rails 5 does not work with Ruby 3)
+(Rails 5 does not work with Ruby 3)
+
 ```bash
 rm Gemfile.lock
 rbenv install 3.1.7
@@ -230,8 +229,9 @@ bundle exec appraisal install
 bundle exec appraisal activerecord_6_0 rspec spec/
 bundle exec appraisal activerecord_6_1 rspec spec/
 bundle exec appraisal rspec spec/
+```
 
-Ruby 3.2.9 (Rails 6.0, 6.1, 7.0, 7.1, 7.2, 8.0, 8.1)
+### Ruby 3.2.9 (Rails 6.0, 6.1, 7.0, 7.1, 7.2, 8.0, 8.1)
 
 ```bash
 rm Gemfile.lock
@@ -246,9 +246,7 @@ bundle exec appraisal activerecord_6_1 rspec spec/
 bundle exec appraisal rspec spec/
 ```
 
-Ruby 3.3.10 (Rails 6.0, 6.1, 7.0, 7.1, 7.2, 8.0, 8.1)
-
-Runnin in batch fails, bur running indiviually all test pass. Needk to check
+### Ruby 3.3.10 (Rails 6.0, 6.1, 7.0, 7.1, 7.2, 8.0, 8.1)
 
 ```bash
 rm Gemfile.lock
@@ -263,7 +261,7 @@ bundle exec appraisal activerecord_6_1 rspec spec/
 bundle exec appraisal rspec spec/
 ```
 
-Ruby 3.4.7 (Rails 7.1, 7.2, 8.0, 8.1)
+### Ruby 3.4.7 (Rails 7.1, 7.2, 8.0, 8.1)
 
 **Note:** Ruby 3.4 only supports Rails 7.1+. The Appraisals file conditionally excludes older Rails versions for Ruby 3.4+. Older Rails versions are tested in CI with appropriate Ruby versions.
 
@@ -302,6 +300,8 @@ bundle check --gemfile='/home/bytedecoder24/workspace/crypt_keeper_byte_repo/gem
 ```
 
 ## Apraisal
+
+Youd dont need to do this, is alredy setup in the devcontainer, just mentioned for information porpuses.
 
 The Appraisal gem is used by Rails gem developers
 to test their library against multiple versions of dependencies, most commonly different versions of Rails. It works by generating separate Gemfile files for each test scenario, allowing developers to ensure their gem remains compatible with a wide range of framework versions. This automates testing and helps prevent regressions as dependencies evolve, which is particularly useful for gems that provide plugin-like functionality for a framework.
