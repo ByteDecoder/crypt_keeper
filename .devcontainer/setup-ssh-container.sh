@@ -25,6 +25,12 @@ if [ -d "$HOST_SSH_MOUNT" ]; then
         mv "$CONTAINER_SSH_DIR/config.tmp" "$CONTAINER_SSH_DIR/config"
         chmod 600 "$CONTAINER_SSH_DIR/config"
         echo "  ✓ Config filtered"
+    else
+        # Create empty config file if it doesn't exist (required by git)
+        echo "📝 Creating empty SSH config file..."
+        touch "$CONTAINER_SSH_DIR/config"
+        chmod 600 "$CONTAINER_SSH_DIR/config"
+        echo "  ✓ Empty config created"
     fi
     
     # Fix permissions
