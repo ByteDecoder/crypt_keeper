@@ -37,7 +37,7 @@ bundle exec appraisal generate
 bundle exec appraisal rspec spec/
 ```
 
-If you have weird warming messages from VSCode, about plugins outside the **devcontainer**, install in your local(outside the devconainter) the next gems:
+If you have weird warming messages from VSCode, about plugins outside/inside the **devcontainer**, install in your local(outside/inside the devconainter) the next gems:
 
 ```bash
 gem install solargraph
