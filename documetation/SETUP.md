@@ -17,7 +17,7 @@ Ruby 3.4 with Rails 7.1-8.1
 
 Starting point, Ruby 3.4, then:
 
-**Dont forget to start the devcontainer to get all the stuff properly configured and running**
+**Dont forget** to start the devcontainer to get all the stuff properly configured and running. Tested by Windows/WSL2 and MAC ARM MX.
 
 ```bash
 bundle install
@@ -43,6 +43,7 @@ This approach allows local development with modern Ruby while maintaining suppor
 1. **Appraisal uses your current Ruby interpreter** - When you run `bundle exec appraisal generate` or `bundle exec appraisal install`, it attempts to resolve and install gems using your active Ruby version.
 
 2. **ActiveRecord has strict Ruby version requirements** - Each Rails/ActiveRecord version specifies minimum (and sometimes maximum) Ruby versions in their gemspecs. For example:
+
    - ActiveRecord 5.x requires Ruby < 3.0
    - ActiveRecord 6.0 requires Ruby < 3.4
    - ActiveRecord 7.2+ requires Ruby >= 3.1
@@ -58,10 +59,11 @@ The `.github/workflows/ruby.yml` file uses a **matrix strategy** to test all com
 strategy:
   matrix:
     ruby-version: ["2.7", "3.0", "3.1", "3.2", "3.3", "3.4"]
-    rails: ["5_0", "5_1", "5_2", "6_0", "6_1", "7_0", "7_1", "7_2", "8_0", "8_1"]
+    rails:
+      ["5_0", "5_1", "5_2", "6_0", "6_1", "7_0", "7_1", "7_2", "8_0", "8_1"]
     exclude:
       - ruby-version: "3.4"
-        rails: "6_0"  # And many other incompatible combinations
+        rails: "6_0" # And many other incompatible combinations
 ```
 
 **How it works:**
@@ -124,7 +126,7 @@ sqlite:
   adapter: sqlite3
   encoding: utf8
   reconnect: false
-  database: ':memory:'
+  database: ":memory:"
 ```
 
 ## Creating Testing Databases
