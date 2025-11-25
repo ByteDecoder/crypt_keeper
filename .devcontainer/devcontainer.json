@@ -58,6 +58,10 @@
       "settings": {
         "ruby.intellisense": "rubyLocate",
         "ruby.useLanguageServer": true,
+        "rubyLsp.bundleGemfile": "",
+        "rubyLsp.rubyVersionManager": {
+          "identifier": "none"
+        },
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "esbenp.prettier-vscode",
         "[ruby]": {

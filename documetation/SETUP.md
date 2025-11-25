@@ -17,6 +17,8 @@ Ruby 3.4 with Rails 7.1-8.1
 
 Starting point, Ruby 3.4, then:
 
+**Dont forget to start the devcontainer to get all the stuff properly configured and running**
+
 ```bash
 bundle install
 ./bin/install-appraisals.sh

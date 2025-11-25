@@ -9,7 +9,21 @@ bundle install
 
 # Install IDE tools separately (not in gemspec to avoid CI/Ruby version issues)
 echo "🔧 Installing IDE tools (ruby-lsp, solargraph)..."
-gem install ruby-lsp solargraph --no-document || echo "⚠️  Warning: Could not install IDE tools"
+if ! gem list -i ruby-lsp > /dev/null 2>&1; then
+    gem install ruby-lsp --no-document || echo "⚠️  Warning: Could not install ruby-lsp"
+fi
+if ! gem list -i solargraph > /dev/null 2>&1; then
+    gem install solargraph --no-document || echo "⚠️  Warning: Could not install solargraph"
+fi
+echo "✅ IDE tools installed"
+
+# Install Appraisal gemfiles
+if [ -f ./bin/install-appraisals.sh ]; then
+    echo "📦 Installing Appraisal gemfiles..."
+    ./bin/install-appraisals.sh
+else
+    echo "⚠️  Warning: ./bin/install-appraisals.sh not found, skipping appraisal installation"
+fi
 
 # Copy database config if it doesn't exist
 if [ ! -f spec/database.yml ]; then
