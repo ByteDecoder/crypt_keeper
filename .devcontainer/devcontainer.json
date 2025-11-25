@@ -100,11 +100,7 @@
       }
     }
   },
-  "forwardPorts": [
-    3000,
-    5432,
-    3306
-  ],
+  "forwardPorts": [3000, 5432, 3306],
   "portsAttributes": {
     "3000": {
       "label": "Application",
@@ -119,7 +115,7 @@
       "onAutoForward": "silent"
     }
   },
-  "postCreateCommand": "cp .devcontainer/.env.template .env && bundle install && cp .devcontainer/database.yml spec/database.yml || true",
+  "postCreateCommand": "cp .devcontainer/.env.template .env && bundle install && cp .devcontainer/database.yml spec/database.yml && bash .devcontainer/setup-ssh-container.sh || true",
   "postStartCommand": "bash .devcontainer/setup-databases.sh",
   "remoteEnv": {
     "DATABASE_HOST": "postgres",
