@@ -1,5 +1,18 @@
 # Gem Development Setup
 
+The CI will now test:
+
+Ruby 2.4 with Rails 4.2
+Ruby 2.7 with Rails 5.0-7.1
+Ruby 3.0-3.1 with Rails 6.0-7.2
+Ruby 3.2-3.3 with Rails 6.0-8.0
+Ruby 3.4 with Rails 7.1-8.1
+
+✅ Full devcontainer setup with PostgreSQL & MySQL
+✅ CI testing across Ruby 2.7-3.4 and Rails 5.0-8.1
+✅ Proper bundler/RubyGems version handling
+✅ Logger fix for Rails 6.x compatibility
+
 ## Overview
 
 This gem uses **Appraisal** to test against multiple Rails versions. The `Appraisals` file conditionally defines which Rails versions are available based on your Ruby version:

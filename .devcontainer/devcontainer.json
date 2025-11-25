@@ -17,7 +17,6 @@
       "extensions": [
         // Ruby & Rails Development
         "shopify.ruby-lsp",
-        "rebornix.ruby",
         "connorshea.vscode-ruby-test-adapter",
         "hridoy.rails-snippets",
         "bung87.rails",
@@ -116,7 +115,7 @@
       "onAutoForward": "silent"
     }
   },
-  "postCreateCommand": "cp .devcontainer/.env.template .env && bundle install && cp .devcontainer/database.yml spec/database.yml || true && gem install solargraph",
+  "postCreateCommand": "cp .devcontainer/.env.template .env && bundle install && cp .devcontainer/database.yml spec/database.yml || true",
   "postStartCommand": "bash .devcontainer/setup-databases.sh",
   "remoteEnv": {
     "DATABASE_HOST": "postgres",
