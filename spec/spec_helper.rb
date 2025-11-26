@@ -1,4 +1,9 @@
 ENV['CRYPT_KEEPER_IGNORE_LEGACY_DEPRECATION'] = "true"
+
+# Fix for ActiveSupport 6.x - Logger constant needs to be loaded explicitly
+# This affects Ruby 2.7+ with Rails 6.x
+require 'logger'
+
 require 'coveralls'
 Coveralls.wear!
 require 'crypt_keeper'

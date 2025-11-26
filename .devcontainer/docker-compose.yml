@@ -1,0 +1,89 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ..:/workspace:cached
+      - bundle-cache:/usr/local/bundle
+      - ~/.ssh:/home/developer/.ssh-host:ro
+    command: sleep infinity
+    environment:
+      - DATABASE_HOST=postgres
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=deploy
+      - MYSQL_HOST=mysql
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=deploy
+      - CRYPT_KEEPER_KEY=${CRYPT_KEEPER_KEY:-75d942f3d3b3492772e0330f717eaf5e689673ea8b983475ef8f6551f6e99d280cd89972706e46b48240cc01c4d0f7df5ffa3524566b789d147ed04cc4ea4eab}
+      - CRYPT_KEEPER_SALT=${CRYPT_KEEPER_SALT:-b16a153e99a5db616a861ea5a6febc64d8a758c4aef3b8c8fc6675ac9daf03f7965f16e8b4b2bdfd28ff65f5203afb8102b8f41c514c3667bb3512015b1e77e8}
+    networks:
+      - crypt_keeper_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+
+  postgres:
+    image: postgres:16-alpine
+    platform: linux/amd64 # Explicit platform for Mac M1 compatibility
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: deploy
+      POSTGRES_DB: crypt_keeper_providers
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init-postgres.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - crypt_keeper_network
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: deploy
+      MYSQL_DATABASE: crypt_keeper_providers
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - crypt_keeper_network
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-pdeploy",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres-data:
+  mysql-data:
+  bundle-cache:
+
+networks:
+  crypt_keeper_network:
+    driver: bridge
